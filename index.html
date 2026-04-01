@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARGO DEMO TEMPLATE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --col: 33.333vw;
+    --pad: 18px;
+    --border: 1px solid #ccc;
+    --font: 'Courier New', Courier, monospace;
+    --fs: 12px;
+    --lh: 1.5;
+    --text: #111;
+    --bg: #fff;
+  }
+
+  html { font-size: var(--fs); }
+
+  body {
+    font-family: var(--font);
+    font-size: var(--fs);
+    line-height: var(--lh);
+    color: var(--text);
+    background: var(--bg);
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  em { font-style: italic; }
+
+  /* ── LAYOUT ── */
+  .site-wrapper {
+    display: grid;
+    grid-template-columns: var(--col) 1fr;
+    min-height: 100vh;
+  }
+
+  .col {
+    border-right: var(--border);
+    padding: 0;
+    position: relative;
+  }
+  .col:last-child { border-right: none; }
+
+  /* ── COLUMN HEADER AREAS — identical on all three columns ── */
+  .col-header-area {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--pad);
+    position: relative;
+  }
+
+  .col-header-area::after {
+    content: '';
+    position: absolute;
+    left: var(--pad);
+    right: var(--pad);
+    bottom: 0;
+    border-bottom: var(--border);
+  }
+
+  /* ── COLUMN CONTENT AREAS — padded wrapper inside each col ── */
+  .col-content {
+    padding: var(--pad);
+  }
+
+  /* ── SITE HEADER ── */
+  .site-header {
+    font-size: var(--fs);
+    letter-spacing: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .logo-placeholder {
+    width: 120px;
+    height: 48px;
+    border: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .logo-placeholder:hover { border-color: #888; color: #666; }
+
+  /* ── DIVIDER ── */
+  hr {
+    border: none;
+    border-top: var(--border);
+    margin: var(--pad) 0;
+  }
+
+  /* ── PROFILE COLUMN ── */
+  .profile-label { margin-bottom: 4px; }
+  .profile-bio { margin: var(--pad) 0; }
+  .contact-link { display: block; }
+
+  /* ── MATERIAL COLUMN ── */
+  .material-col { padding: 0; }
+
+  .col-header {
+    /* styling handled by .col-header-area wrapper */
+  }
+
+  .project-item {
+    padding: var(--pad);
+  }
+
+  /* placeholder images for projects */
+  .project-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    margin-bottom: var(--pad);
+    border: var(--border);
+    background-color: #f0eeea;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cline x1='0' y1='0' x2='100%25' y2='100%25' stroke='%23ccc' stroke-width='1'/%3E%3Cline x1='100%25' y1='0' x2='0' y2='100%25' stroke='%23ccc' stroke-width='1'/%3E%3C/svg%3E");
+  }
+
+  .project-number {
+    margin-bottom: 4px;
+  }
+
+  .project-meta {
+    margin-bottom: var(--pad);
+    line-height: 1.6;
+  }
+
+  .project-desc {
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .project-item {
+    position: relative;
+    padding: var(--pad);
+  }
+
+  .project-item::after {
+    content: '';
+    position: absolute;
+    left: var(--pad);
+    right: var(--pad);
+    bottom: 0;
+    border-bottom: var(--border);
+  }
+
+  /* ── CV COLUMN ── */
+  .cv-col { padding: 0; }
+
+  .cv-section {
+    position: relative;
+    padding: var(--pad);
+  }
+
+  .cv-section::after {
+    content: '';
+    position: absolute;
+    left: var(--pad);
+    right: var(--pad);
+    bottom: 0;
+    border-bottom: var(--border);
+  }
+
+  .cv-section-grid {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 0 var(--pad);
+  }
+
+  .cv-label {
+    padding-top: 0;
+    color: #111;
+  }
+
+  .cv-entries { }
+
+  .cv-entry {
+    margin-bottom: var(--pad);
+    line-height: 1.6;
+  }
+  .cv-entry:last-child { margin-bottom: 0; }
+
+  /* ── FOOTER ── */
+  .footer-timestamp {
+    position: fixed;
+    bottom: var(--pad);
+    left: var(--pad);
+    font-size: var(--fs);
+    color: #111;
+  }
+
+  .footer-copyright {
+    padding: var(--pad);
+    font-size: var(--fs);
+    color: #111;
+  }
+
+  .last-updated {
+    margin-top: var(--pad);
+    border-top: var(--border);
+    padding-top: var(--pad);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    :root { --pad: 14px; }
+
+    .footer-timestamp { display: none; }
+
+    .site-wrapper {
+      display: block;
+    }
+
+    .col {
+      border-right: none;
+      border-bottom: var(--border);
+    }
+    .col:last-child { border-bottom: none; }
+
+    .cv-section-grid {
+      grid-template-columns: 80px 1fr;
+      gap: 0 10px;
+    }
+
+    .project-image {
+      aspect-ratio: 4/3;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1100px) {
+    :root {
+      --col: 33.333vw;
+      --fs: 11px;
+      --pad: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Timestamp fixed bottom-left -->
+<div class="footer-timestamp" id="clock"></div>
+
+<div class="site-wrapper">
+
+  <!-- ══════════════════════════════════
+       COLUMN 1 — PROFILE
+  ══════════════════════════════════ -->
+  <div class="col">
+    <div class="col-header-area">
+      <div class="site-header">
+        <a href="#" style="text-decoration:none;">
+          <img src="Images/Souverre Logo.png" alt="Souverre" style="height:36px; width:auto; display:block;">
+        </a>
+      </div>
+    </div>
+
+    <div class="col-content">
+    <a href="/cdn-cgi/l/email-protection#f3808786979a9cb3809c868596818196dd909c9e"><span class="__cf_email__" data-cfemail="e4979091808d8ba4978b919281969681ca878b89">[email&#160;protected]</span></a>
+
+    <p class="profile-bio">
+      Souverre traces scent through air, light, and the quiet work of the land. Each fragrance begins with observation, capturing subtle shifts in season and landscape, preserving fleeting moments of the wild that linger long after the trail ends.
+    </p>
+
+    <div style="display:flex; gap: var(--pad);">
+      <a class="contact-link" href="#">CONTACT</a>
+      <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+    </div>
+
+    <div class="last-updated">
+      Last Updated 24.10.31
+    </div>
+    </div><!-- /inner wrapper -->
+
+  </div>
+
+  <!-- ══════════════════════════════════
+       COLUMN 2 — MATERIAL
+  ══════════════════════════════════ -->
+  <div class="col material-col">
+    <div class="col-header-area">
+      <div class="col-header">Scent Trails</div>
+    </div>
+
+    <!-- Project 1 -->
+    <div class="project-item">
+      <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&auto=format&fit=crop" alt="Sun rays in forest" style="width:100%; aspect-ratio:4/3; object-fit:cover; margin-bottom:var(--pad); display:block;">
+      <div class="project-number"><strong>LOG001: Council Trail</strong></div>
+      <div class="project-meta">
+        Nov. 8, 2025<br>
+        <br>
+        · Temperature: 11–15°C<br>
+        · Humidity: 72%<br>
+        · Pine resin sweetness layered with moist earth, grass dew, and decaying leaves
+      </div>
+      <p class="project-desc" style="margin-bottom: var(--pad);"><strong>Resin Light</strong><br>
+      A scent that opens with sharp cedar and cold air, the metallic bite of a November morning, then softens into damp moss, pine sap, and a trace of smoke. Beneath it lingers a quiet sweetness: decaying leaves, sunlight caught in bark.</p>
+      <p class="project-desc" style="margin-bottom: var(--pad);"><strong>Description</strong><br>
+      The forest at Council Trail smelled alive. Not the kind of "fresh" you read on candle labels, but something deeper, darker, with weight and age. It started the moment I stepped past the trailhead, where the air turned thick with cedar and wet bark. Each breath carried that sticky-green sharpness of pine resin, cut through by the faint salt of the Pacific. The scent clung to the back of my throat, sweet and medicinal at once — a smell that makes you forget the seven-million-dollar mansion sitting right in front of the trailhead because no amount of glass and marble can outshine the smell of old trees doing what they've done for centuries, simply existing.</p>
+      <p class="project-desc" style="margin-bottom: var(--pad);">The sun was kind this morning. It warmed the edges of damp leaves and drew sweetness from the sap. When my sleeve brushed a low branch, its oil marked me. Suddenly the scent followed me, softening over time into something deeper, smokier, like the ghost of a campfire on forest skin. Two hours later, when I reached the end of the trail, I could still smell it on my hands — faint but certain. Proof that scent can hold a memory longer than words.</p>
+      <p class="project-desc">If this morning were a fragrance, it would smell of stillness. Of motion remembered. Of thought made clear in solitude, the calm that follows movement.</p>
+    </div>
+
+
+
+    <!-- Project 2 -->
+    <div class="project-item">
+      <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&auto=format&fit=crop" alt="Hikers on mountain trail" style="width:100%; aspect-ratio:4/3; object-fit:cover; margin-bottom:var(--pad); display:block;">
+      <div class="project-number"><strong>LOG002: Elk Mountain Trail, BC, Canada</strong></div>
+      <div class="project-meta">
+        Nov. 18, 2025<br>
+        <br>
+        · Temperature: 11–15°C<br>
+        · Humidity: 72%<br>
+        · Papery, sun-softened leaves drifting into mineral air and clean, transparent snow; resin warming into something honey-soft.
+      </div>
+      <p class="project-desc" style="margin-bottom: var(--pad);"><strong>Frostlight</strong><br>
+      A scent that carries the warmth of sun-softened leaves, the crisp clarity of first snow, and the earthy sweetness of grass after a fresh rain.</p>
+      <p class="project-desc" style="margin-bottom: var(--pad);"><strong>Description</strong><br>
+      The drive up to the entrance of Elk Mountain wasn't winter yet, just cold, the kind of metallic clarity that lands on skin before the weather decides what it wants to be. The trail began in late-autumn quiet, leaves soft and papery underfoot, their sweetness fading into the damp air.</p>
+      <p class="project-desc" style="margin-bottom: var(--pad);">Snow didn't arrive until halfway up. First as a few uncertain flakes, drifting more like ideas than weather. Then the air thickened. The forest dimmed. Pine needles snapped sharply under the growing frost, releasing a green, resinous breath into the cold.</p>
+      <p class="project-desc" style="margin-bottom: var(--pad);">By the time we reached the summit, the season had shifted its weight entirely. Snow lay heavy on the branches, smoothing every edge of the mountain into white. The scent of the world changed with it, mineral, clean, transparent, resting atop the darker warmth of earth preparing to sleep.</p>
+      <p class="project-desc">A threshold crossed.<br>
+      A season turning in real time.<br>
+      A fragrance shaped by the transition of autumn's fading warmth into winter's quiet clarity.</p>
+    </div>
+
+
+
+    <!-- Project 3 -->
+    <div class="project-item">
+      <div class="project-placeholder"></div>
+      <div class="project-number">3. Test Project</div>
+      <div class="project-meta">
+        Sol Lewitt, <em>A Melodrama</em><br>
+        Postcard<br>
+        John Weber Gallery, 1980
+      </div>
+      <p class="project-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta ex a porta blandit. Suspendisse feugiat justo at mauris molestie molestie. Ut mattis urna sed sem pulvinar, vitae rutrum nulla ultrices. Curabitur laoreet erat et sapien venenatis luctus.</p>
+    </div>
+
+
+
+    <!-- Project 4 -->
+    <div class="project-item">
+      <div class="project-placeholder"></div>
+      <div class="project-number">4. Test Project</div>
+      <div class="project-meta">
+        Ian Hamilton Finlay, <em>An Urn for Novalis</em><br>
+        1997/98
+      </div>
+      <p class="project-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta ex a porta blandit. Suspendisse feugiat justo at mauris molestie molestie. Ut mattis urna sed sem pulvinar, vitae rutrum nulla ultrices. Curabitur laoreet erat et sapien venenatis luctus.</p>
+    </div>
+
+
+
+    <!-- Project 5 -->
+    <div class="project-item">
+      <div class="project-placeholder"></div>
+      <div class="project-number">5. Test Project</div>
+      <div class="project-meta">
+        Joseph Beuys, <em>Laßt Blumen sprechen</em><br>
+        1974<br>
+        5-7/8 x 4-1/4 inches<br>
+        offset lithograph on paper
+      </div>
+      <p class="project-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta ex a porta blandit. Suspendisse feugiat justo at mauris molestie molestie. Ut mattis urna sed sem pulvinar, vitae rutrum nulla ultrices. Curabitur laoreet erat et sapien venenatis luctus.</p>
+    </div>
+
+
+
+    <!-- Project 6 -->
+    <div class="project-item">
+      <div class="project-placeholder"></div>
+      <div class="project-number">6. Test Project</div>
+      <div class="project-meta">
+        Emily Harvey<br>
+        EARTHLY WORKS, 1988
+      </div>
+      <p class="project-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta ex a porta blandit. Suspendisse feugiat justo at mauris molestie molestie. Ut mattis urna sed sem pulvinar, vitae rutrum nulla ultrices. Curabitur laoreet erat et sapien venenatis luctus.</p>
+    </div>
+
+
+
+    <!-- Project 7 -->
+    <div class="project-item">
+      <div class="project-placeholder"></div>
+      <div class="project-number">7. Test Project</div>
+      <div class="project-meta">
+        <em>Wie Venedig Sehen</em><br>
+        Lothar Baumgarten, 1984
+      </div>
+      <p class="project-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta ex a porta blandit. Suspendisse feugiat justo at mauris molestie molestie. Ut mattis urna sed sem pulvinar, vitae rutrum nulla ultrices. Curabitur laoreet erat et sapien venenatis luctus.</p>
+    </div>
+
+
+
+    <!-- Project 8 -->
+    <div class="project-item">
+      <div class="project-placeholder"></div>
+      <div class="project-number">8. Test Project</div>
+      <div class="project-meta">
+        <em>Exhibition invite postcard</em><br>
+        Alfred Jensen, 1991<br>
+        Pace Gallery
+      </div>
+      <p class="project-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta ex a porta blandit. Suspendisse feugiat justo at mauris molestie molestie. Ut mattis urna sed sem pulvinar, vitae rutrum nulla ultrices. Curabitur laoreet erat et sapien venenatis luctus.</p>
+    </div>
+
+    <div class="footer-copyright">© CARGO TEST 2027</div>
+  </div>
+
+</div><!-- /site-wrapper -->
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scr
