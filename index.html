@@ -446,13 +446,10 @@
     <div class="signup-inner">
       <p class="signup-tagline">Hear from us as the season turns:</p>
       <div id="sib-form-container">
-        <div id="error-message" class="sib-form-message-panel" style="display:none; font-family:var(--mono); font-size:13px; text-align:center; color:#661d1d; background-color:#ffeded; border-radius:3px; padding:0.5rem; margin-bottom:1rem;"></div>
-        <div id="success-message" class="sib-form-message-panel" style="display:none; font-family:var(--mono); font-size:13px; text-align:center; color:#085229; background-color:#e7faf0; border-radius:3px; padding:0.5rem; margin-bottom:1rem;"></div>
-        <form id="sib-form" class="signup-form" method="POST" action="https://65ef5b27.sibforms.com/serve/MUIFAEtkNliaJelnLjv36xLzH-Tk8ypPA-B5DzzANVYLnZ04YaUZh9hvIrs_xISnK2RVaHmR6H7T-zeIAJ_HSyTAaYGYY1zpR2cdGC_fJ0B7HPA5X2P-PFaDk_C7j1v-EGXkHF1-MnuXe4H3Zg6nJ_NFxfGjG3VL_w7gfO8kizRfXuKEG2CbB-8h-pt3LTolhOkPjPsd0Ow-D907PA==" data-type="subscription">
+        <div id="signup-feedback" style="display:none; font-family:var(--mono); font-size:13px; text-align:center; padding:0.5rem; margin-bottom:1rem; border-radius:3px;"></div>
+        <form id="sib-form" class="signup-form" onsubmit="handleBrevoSubmit(event)">
           <input type="text" id="FIRSTNAME" name="FIRSTNAME" class="signup-input" placeholder="First name" autocomplete="off" required />
           <input type="email" id="EMAIL" name="EMAIL" class="signup-input" placeholder="Email address" autocomplete="off" required />
-          <input type="text" name="email_address_check" value="" class="input--hidden" style="display:none;" />
-          <input type="hidden" name="locale" value="en" />
           <button type="submit" class="signup-btn">Sign Up</button>
         </form>
       </div>
