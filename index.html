@@ -444,16 +444,26 @@
   <!-- EMAIL SIGNUP (Brevo) -->
   <section class="signup-section">
     <div class="signup-inner">
-      <p class="signup-tagline">Hear from us as the season turns:</p>
-      <form class="signup-form" method="POST" action="https://65ef5b27.sibforms.com/serve/MUIFAEtkNliaJelnLjv36xLzH-Tk8ypPA-B5DzzANVYLnZ04YaUZh9hvIrs_xISnK2RVaHmR6H7T-zeIAJ_HSyTAaYGYY1zpR2cdGC_fJ0B7HPA5X2P-PFaDk_C7j1v-EGXkHF1-MnuXe4H3Zg6nJ_NFxfGjG3VL_w7gfO8kizRfXuKEG2CbB-8h-pt3LTolhOkPjPsd0Ow-D907PA==">
-        <input type="text" name="FIRSTNAME" class="signup-input" placeholder="First name" autocomplete="off" required />
-        <input type="email" name="EMAIL" class="signup-input" placeholder="Email address" autocomplete="off" required />
-        <input type="text" name="email_address_check" value="" style="display:none;" />
-        <input type="hidden" name="locale" value="en" />
-        <button type="submit" class="signup-btn">Sign Up</button>
-      </form>
+      <div id="signup-form-wrap">
+        <p class="signup-tagline">Hear from us as the season turns:</p>
+        <form class="signup-form" method="POST" action="https://65ef5b27.sibforms.com/serve/MUIFAEtkNliaJelnLjv36xLzH-Tk8ypPA-B5DzzANVYLnZ04YaUZh9hvIrs_xISnK2RVaHmR6H7T-zeIAJ_HSyTAaYGYY1zpR2cdGC_fJ0B7HPA5X2P-PFaDk_C7j1v-EGXkHF1-MnuXe4H3Zg6nJ_NFxfGjG3VL_w7gfO8kizRfXuKEG2CbB-8h-pt3LTolhOkPjPsd0Ow-D907PA==">
+          <input type="text" name="FIRSTNAME" class="signup-input" placeholder="First name" autocomplete="off" required />
+          <input type="email" name="EMAIL" class="signup-input" placeholder="Email address" autocomplete="off" required />
+          <input type="text" name="email_address_check" value="" style="display:none;" />
+          <input type="hidden" name="locale" value="en" />
+          <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+      </div>
+      <p id="signup-thankyou" style="display:none;" class="signup-tagline">Thank you. You'll hear from us as the season turns.</p>
     </div>
   </section>
+  <script>
+    if (new URLSearchParams(window.location.search).get('subscribed') === 'true') {
+      document.getElementById('signup-form-wrap').style.display = 'none';
+      document.getElementById('signup-thankyou').style.display = 'block';
+      history.replaceState(null, '', window.location.pathname);
+    }
+  </script>
 
   <!-- BACKGROUND IMAGE -->
   <div class="bg-image-section">
@@ -480,47 +490,6 @@
     </div>
   </footer>
 
-  <script>
-    async function handleBrevoSubmit(e) {
-      e.preventDefault();
-      const feedback = document.getElementById('signup-feedback');
-      const form = document.getElementById('sib-form');
-      const btn = form.querySelector('.signup-btn');
-
-      const firstName = document.getElementById('FIRSTNAME').value.trim();
-      const email = document.getElementById('EMAIL').value.trim();
-
-      btn.textContent = '...';
-      btn.disabled = true;
-
-      const body = new URLSearchParams({
-        FIRSTNAME: firstName,
-        EMAIL: email,
-        email_address_check: '',
-        locale: 'en'
-      });
-
-      try {
-        await fetch('https://65ef5b27.sibforms.com/serve/MUIFAEtkNliaJelnLjv36xLzH-Tk8ypPA-B5DzzANVYLnZ04YaUZh9hvIrs_xISnK2RVaHmR6H7T-zeIAJ_HSyTAaYGYY1zpR2cdGC_fJ0B7HPA5X2P-PFaDk_C7j1v-EGXkHF1-MnuXe4H3Zg6nJ_NFxfGjG3VL_w7gfO8kizRfXuKEG2CbB-8h-pt3LTolhOkPjPsd0Ow-D907PA==', {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: body.toString()
-        });
-        // no-cors means we can't read the response, but submission goes through
-        form.style.display = 'none';
-        feedback.style.display = 'block';
-        feedback.style.color = '#085229';
-        feedback.textContent = 'Thank you. You\'ll hear from us as the season turns.';
-      } catch (err) {
-        feedback.style.display = 'block';
-        feedback.style.color = '#661d1d';
-        feedback.textContent = 'Something went wrong. Please try again.';
-        btn.textContent = 'Sign Up';
-        btn.disabled = false;
-      }
-    }
-  </script>
 
 </body>
 </html>
