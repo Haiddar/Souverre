@@ -430,18 +430,17 @@
   <script>
     function fitTitle() {
       var el = document.getElementById('hero-title');
-      var padding = parseFloat(getComputedStyle(document.documentElement).fontSize) * 3 * 2; // 3rem each side
+      var padding = 3 * 2 * 16; // 3rem * 2 sides * 16px base — adjust if root font-size differs
       var available = window.innerWidth - padding;
-      var size = 10;
-      el.style.fontSize = size + 'px';
-      while (el.scrollWidth < available && size < 500) {
-        size += 0.5;
-        el.style.fontSize = size + 'px';
-      }
-      // step back one increment to avoid overflow
-      el.style.fontSize = (size - 0.5) + 'px';
+      el.style.fontSize = '10px';
+      var ratio = available / el.scrollWidth;
+      el.style.fontSize = (10 * ratio) + 'px';
     }
-    document.addEventListener('DOMContentLoaded', fitTitle);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(fitTitle);
+    } else {
+      window.addEventListener('load', fitTitle);
+    }
     window.addEventListener('resize', fitTitle);
   </script>
 
