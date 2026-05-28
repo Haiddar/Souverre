@@ -458,11 +458,21 @@
     </div>
   </section>
   <script>
-    if (new URLSearchParams(window.location.search).get('subscribed') === 'true') {
-      document.getElementById('signup-form-wrap').style.display = 'none';
-      document.getElementById('signup-thankyou').style.display = 'block';
-      history.replaceState(null, '', window.location.pathname);
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var params = new URLSearchParams(window.location.search);
+      var subscribed = params.get('subscribed');
+      console.log('subscribed param:', subscribed, '| full URL:', window.location.href);
+      if (subscribed === 'true') {
+        var formWrap = document.getElementById('signup-form-wrap');
+        var thankyou = document.getElementById('signup-thankyou');
+        if (formWrap) formWrap.style.display = 'none';
+        if (thankyou) thankyou.style.display = 'block';
+        setTimeout(function() {
+          document.querySelector('.signup-section').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+        history.replaceState(null, '', window.location.pathname);
+      }
+    });
   </script>
 
   <!-- BACKGROUND IMAGE -->
