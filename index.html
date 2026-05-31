@@ -338,8 +338,6 @@
 
       .hero-title {
         padding: 1.5rem 1.25rem 3rem;
-        white-space: normal;
-        font-size: clamp(2.5rem, 13vw, 4rem);
         text-align: left;
       }
 
@@ -430,7 +428,10 @@
   <script>
     function fitTitle() {
       var el = document.getElementById('hero-title');
-      var available = el.parentElement.clientWidth - 96; // subtract 3rem*2 padding (96px at 16px base)
+      var cs = getComputedStyle(el);
+      var padLeft = parseFloat(cs.paddingLeft);
+      var padRight = parseFloat(cs.paddingRight);
+      var available = el.parentElement.clientWidth - padLeft - padRight;
 
       // Create offscreen clone to measure pure text width at known size
       var clone = el.cloneNode(true);
