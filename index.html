@@ -430,17 +430,22 @@
   <script>
     function fitTitle() {
       var el = document.getElementById('hero-title');
-      var padding = 3 * 2 * 16; // 3rem * 2 sides * 16px base — adjust if root font-size differs
-      var available = window.innerWidth - padding;
-      el.style.fontSize = '10px';
-      var ratio = available / el.scrollWidth;
-      el.style.fontSize = (10 * ratio) + 'px';
+      var available = el.parentElement.clientWidth - 96; // subtract 3rem*2 padding (96px at 16px base)
+
+      // Create offscreen clone to measure pure text width at known size
+      var clone = el.cloneNode(true);
+      clone.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-size:100px;padding:0;margin:0;left:-9999px;';
+      document.body.appendChild(clone);
+      var textWidthAt100 = clone.offsetWidth;
+      document.body.removeChild(clone);
+
+      var newSize = (100 * available / textWidthAt100);
+      el.style.fontSize = newSize + 'px';
     }
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(fitTitle);
-    } else {
-      window.addEventListener('load', fitTitle);
-    }
+
+    document.fonts.ready.then(function() {
+      fitTitle();
+    });
     window.addEventListener('resize', fitTitle);
   </script>
 
